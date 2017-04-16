@@ -4,15 +4,19 @@
  * @flow
  */
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   AppRegistry,
   StyleSheet,
   Text,
   TextInput,
+  ScrollView,
+  ListView,
   Image,
   View
 } from 'react-native';
+
+const wataImage = 'https://connpass-tokyo.s3.amazonaws.com/user/27493/0154438e9e3f4a3fbd7102bb1f15075d.png'
 
 export default class rntodo extends Component {
   render() {
@@ -36,13 +40,56 @@ export default class rntodo extends Component {
   }
 }
 
-class WMark extends Component {
+class ListViewBasics extends Component {
+  constructor(props) {
+    super(props);
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.state = {
+      dataSource: ds.cloneWithRows([
+        "8maki", "moqada", "ide", "achiku"
+      ])
+    };
+  }
   render() {
-    let pic = {
-      uri: 'https://connpass-tokyo.s3.amazonaws.com/user/27493/0154438e9e3f4a3fbd7102bb1f15075d.png',
+    return (
+      <View style={{flex:1, paddingTop: 22}}>
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={(rowData) => <Text>{rowData}</Text>}
+        />
+      </View>
+    );
+  }
+}
+
+class IScroll extends Component {
+  render() {
+    const pic = {
+      uri: wataImage
     };
     return (
-      <Image source={pic} style={{width: 193, height: 110}}/>
+      <ScrollView>
+        <Text style={{fontSize: 30}}>scroll please</Text>
+        <Image source={pic} />
+        <Image source={pic} />
+        <Image source={pic} />
+        <Image source={pic} />
+        <Text style={{fontSize: 30}}>cotton_ori</Text>
+      </ScrollView>
+    )
+  }
+} 
+
+class WMark extends Component {
+  render() {
+    const pic = {
+      uri: wataImage
+    };
+    return (
+      <Image
+        source={pic}
+        style={{height: 110, width: 193}}
+      />
     );
   }
 }
@@ -59,8 +106,8 @@ class LotsOfGreetings extends Component {
   render() {
     return (
       <View style={{alignItems: 'center'}}>
-        <Greeting name='moqada' />
-        <Greeting name='8maki' />
+        <Greeting name="moqada" />
+        <Greeting name="8maki" />
       </View>
     );
   }
@@ -70,9 +117,9 @@ class FlexDimensionsBasics extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <View style={{flex: 1, backgroundColor: 'powderblue'}} />
-        <View style={{flex: 2, backgroundColor: 'skyblue'}} />
-        <View style={{flex: 3, backgroundColor: 'steelblue'}} />
+        <View style={{backgroundColor: 'powderblue', flex: 1}} />
+        <View style={{backgroundColor: 'skyblue', flex: 2}} />
+        <View style={{backgroundColor: 'steelblue', flex: 3}} />
       </View>
     );
   }
@@ -122,4 +169,6 @@ const styles = StyleSheet.create({
 // AppRegistry.registerComponent('rntodo', () => WMark);
 // AppRegistry.registerComponent('rntodo', () => LotsOfGreetings);
 // AppRegistry.registerComponent('rntodo', () => FlexDimensionsBasics);
-AppRegistry.registerComponent('rntodo', () => PizzaTranslator);
+// AppRegistry.registerComponent('rntodo', () => PizzaTranslator);
+// AppRegistry.registerComponent('rntodo', () => IScroll);
+AppRegistry.registerComponent('rntodo', () => ListViewBasics);
